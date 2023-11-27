@@ -34,20 +34,20 @@
 	<!-- ===== Propriétés Maven ===== -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source> <!-- updated -->
+        <maven.compiler.target>21</maven.compiler.target> <!-- updated -->
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.14.1</version>
+            <version>2.22.0</version> <!-- updated -->
         </dependency>
 		<dependency>
  	   		<groupId>org.apache.logging.log4j</groupId>
    			 <artifactId>log4j-core</artifactId>
-   			 <version>2.14.1</version>
+   			 <version>2.22.0</version>
 		</dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -57,37 +57,31 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.8.2</version>
+            <version>5.10.1</version> <!-- updated -->
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.8.2</version>
+            <version>5.10.1</version> <!-- updated -->
             <scope>test</scope>
         </dependency>
         <dependency>
-        	<groupId>org.junit.jupiter</groupId>
-        	<artifactId>junit-jupiter-params</artifactId>
-        	<version>5.8.2</version> <!-- Remplacez x.x par la version actuelle de JUnit 5 -->
-        	<scope>test</scope>
-    	</dependency>
-        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>3.12.4</version>
+            <version>5.7.0</version> <!-- updated -->
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.7</version>
+            <version>0.8.9</version> <!-- updated -->
             <type>maven-plugin</type>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
-            <version>3.3.0</version>
+            <version>3.6.0</version> <!-- updated -->
         </dependency>
 
     </dependencies>
@@ -113,7 +107,7 @@
                                 </manifest>
                             </archive>
                             <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                                <descriptorRef>executable-jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
                         </configuration>
                     </execution>
@@ -122,8 +116,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
-                
+                <version>3.2.2</version><!--  updated -->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.3.2</version> <!-- updated -->
+                    </dependency>
+
+                </dependencies>
                 <configuration>
                     <excludes>
                         <exclude>**/*IT.java</exclude>
@@ -153,7 +154,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.9</version>
+                <version>0.8.9</version> <!-- updated -->
                 <executions>
                     <execution>
                         <goals>
