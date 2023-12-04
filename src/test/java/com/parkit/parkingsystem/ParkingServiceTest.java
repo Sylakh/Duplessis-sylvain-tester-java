@@ -115,9 +115,8 @@ class ParkingServiceTest {
 
 	@Test
 	void processExitingVehicleUnableUpdateTest() {
-		// exécution du
-		// test dans le cas où la méthode updateTicket() de ticketDAO // renvoie
-		// false lors de l’appel de processExitingVehicle()
+		// exécution du test dans le cas où la méthode updateTicket() de ticketDAO
+		// renvoie false lors de l’appel de processExitingVehicle()
 
 		// WHEN
 		try {

@@ -1,4 +1,4 @@
-package com.parkit.parkingsystem.integration;
+package com.parkit.parkingsystem.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -12,14 +12,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.parkit.parkingsystem.constants.ParkingType;
-import com.parkit.parkingsystem.dao.ParkingSpotDAO;
-import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 
-public class TicketDAOTestIT {
+public class TicketDAOTest {
 
 	private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
 	private static ParkingSpotDAO parkingSpotDAO;
@@ -48,12 +46,13 @@ public class TicketDAOTestIT {
 
 	@Test
 	public void saveTicketTest() {
+
 		Ticket ticketTest = new Ticket();
 		ParkingSpot parkingSpotTest = new ParkingSpot(1, ParkingType.CAR, true);
-
 		boolean savedVerification;
 		Date dateInTime = new Date();
 		Date dateOutTime = new Date();
+
 		dateInTime.setTime(System.currentTimeMillis() - (120 * 60 * 1000));
 		dateOutTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
 		ticketTest.setParkingSpot(parkingSpotTest);
@@ -63,7 +62,6 @@ public class TicketDAOTestIT {
 		ticketTest.setOutTime(dateOutTime);
 		savedVerification = ticketDAO.saveTicket(ticketTest);
 
-		// Ticket tickedSaved = new Ticket();
 		assertEquals("AZERTY", ticketTest.getVehicleRegNumber());
 		assertEquals(0, ticketTest.getPrice());
 		assertNotNull(ticketTest.getInTime());
@@ -73,7 +71,9 @@ public class TicketDAOTestIT {
 
 	@Test
 	public void getTickektTest() {
+
 		saveTicketTest();
+
 		Ticket getTicketTest = new Ticket();
 		getTicketTest = ticketDAO.getTicket("AZERTY");
 
@@ -85,6 +85,7 @@ public class TicketDAOTestIT {
 
 	@Test
 	public void updateTicketTest() {
+
 		saveTicketTest();
 
 		Ticket ticket = new Ticket();
@@ -99,7 +100,6 @@ public class TicketDAOTestIT {
 		ticket.setPrice(10);
 		ticket.setInTime(updateInTime);
 		ticket.setOutTime(updateOutTime);
-
 		ticketDAO.updateTicket(ticket);
 
 		Ticket updatedTicket = new Ticket();
@@ -112,8 +112,10 @@ public class TicketDAOTestIT {
 
 	@Test
 	public void getNbTicketTest() {
+
 		saveTicketTest();
 		saveTicketTest();
+
 		int countNbTicket = 0;
 		countNbTicket = ticketDAO.getNbTicket("AZERTY");
 
