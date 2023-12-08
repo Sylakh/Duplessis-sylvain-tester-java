@@ -215,7 +215,7 @@ class ParkingServiceTest {
 			ticket.setParkingSpot(parkingSpot);
 			ticket.setVehicleRegNumber("ABCDEF");
 			when(inputReaderUtil.readSelection()).thenReturn(3);
-			// when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("Failed to set up test mock objects");

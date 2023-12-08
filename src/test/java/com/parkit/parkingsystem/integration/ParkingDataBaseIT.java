@@ -146,4 +146,60 @@ public class ParkingDataBaseIT {
 
 	}
 
+	@Test
+	public void testParkingLotExitForOneHour() {
+
+		testParkingACar();
+		Ticket ticketFromDataBase = new Ticket();
+		ticketFromDataBase = ticketDAO.getTicket("ABCDEF");
+
+		Date newDate = new Date();
+		newDate.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+		ticketFromDataBase.setInTime(newDate);
+		ticketFromDataBase.setOutTime(newDate);
+
+		ticketDAO.updateTicket(ticketFromDataBase);
+
+		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+		parkingService.processExitingVehicle();
+
+		ticketFromDataBase = ticketDAO.getTicket("ABCDEF");
+
+		DecimalFormat decimalFormat = new DecimalFormat("#.##");
+		String roundedValue = decimalFormat.format(ticketFromDataBase.getPrice());
+
+		assertNotNull(ticketFromDataBase.getPrice());
+		assertEquals("1,5", roundedValue);
+		assertNotEquals(null, ticketFromDataBase.getOutTime());
+
+	}
+
+	@Test
+	public void testParkingLotExitForOneDay() {
+
+		testParkingACar();
+		Ticket ticketFromDataBase = new Ticket();
+		ticketFromDataBase = ticketDAO.getTicket("ABCDEF");
+
+		Date newDate = new Date();
+		newDate.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
+		ticketFromDataBase.setInTime(newDate);
+		ticketFromDataBase.setOutTime(newDate);
+
+		ticketDAO.updateTicket(ticketFromDataBase);
+
+		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+		parkingService.processExitingVehicle();
+
+		ticketFromDataBase = ticketDAO.getTicket("ABCDEF");
+
+		DecimalFormat decimalFormat = new DecimalFormat("#.##");
+		String roundedValue = decimalFormat.format(ticketFromDataBase.getPrice());
+
+		assertNotNull(ticketFromDataBase.getPrice());
+		assertEquals("36", roundedValue);
+		assertNotEquals(null, ticketFromDataBase.getOutTime());
+
+	}
+
 }

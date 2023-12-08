@@ -33,6 +33,7 @@
 
 	<!-- ===== Propriétés Maven ===== -->
     <properties>
+		<configuration-exclude>**/*constants/*.*</configuration-exclude>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -154,6 +155,16 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.9</version>
+                <configuration>
+					<excludes>
+						<exclude>**/*constants/*.*</exclude>
+						<exclude>**/*util/*.*</exclude>
+						<exclude>**/*model/*.*</exclude>
+						<exclude>**/*config/*.*</exclude>
+						<exclude>**/App.*</exclude>
+						<exclude>**/InteractiveShell.*</exclude>
+					</excludes>
+				</configuration>
                 <executions>
                     <execution>
                         <goals>
