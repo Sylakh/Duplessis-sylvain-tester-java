@@ -43,12 +43,12 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.14.1</version>
+            <version>2.22.0</version>
         </dependency>
 		<dependency>
  	   		<groupId>org.apache.logging.log4j</groupId>
    			 <artifactId>log4j-core</artifactId>
-   			 <version>2.14.1</version>
+   			 <version>2.22.0</version>
 		</dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -58,37 +58,37 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.8.2</version>
+            <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.8.2</version>
+            <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
         	<groupId>org.junit.jupiter</groupId>
         	<artifactId>junit-jupiter-params</artifactId>
-        	<version>5.8.2</version> <!-- Remplacez x.x par la version actuelle de JUnit 5 -->
+        	<version>5.10.0</version> <!-- Remplacez x.x par la version actuelle de JUnit 5 -->
         	<scope>test</scope>
     	</dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>3.12.4</version>
+            <version>5.8.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.7</version>
+            <version>0.8.11</version>
             <type>maven-plugin</type>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
-            <version>3.3.0</version>
+            <version>3.6.0</version>
         </dependency>
 
     </dependencies>
@@ -123,7 +123,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>3.2.2</version>
                 
                 <configuration>
                     <excludes>
@@ -154,7 +154,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.9</version>
+                <version>0.8.11</version>
                 <configuration>
 					<excludes>
 						<exclude>**/*constants/*.*</exclude>
