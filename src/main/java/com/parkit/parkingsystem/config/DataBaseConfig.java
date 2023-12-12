@@ -13,10 +13,22 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Configuration of the mysql database and tools to communicate with it
+ * 
+ * @version 1.0
+ */
 public class DataBaseConfig {
 
 	private static final Logger logger = LogManager.getLogger("DataBaseConfig");
 
+	/**
+	 * Creation of a connection with the database
+	 * 
+	 * @return establish a connection with the database
+	 * 
+	 * @version 1.0
+	 */
 	public Connection getConnection() throws ClassNotFoundException, SQLException {
 
 		try (BufferedReader reader = new BufferedReader(
@@ -39,6 +51,13 @@ public class DataBaseConfig {
 
 	}
 
+	/**
+	 * Close the connection with the database
+	 * 
+	 * @param con connection established
+	 * 
+	 * @version 1.0
+	 */
 	public void closeConnection(Connection con) {
 		if (con != null) {
 			try {
@@ -51,6 +70,13 @@ public class DataBaseConfig {
 
 	}
 
+	/**
+	 * Close the prepared statement which is a precompiled SQL statement
+	 * 
+	 * @param ps the prepared statement
+	 * 
+	 * @version 1.0
+	 */
 	public void closePreparedStatement(PreparedStatement ps) {
 		if (ps != null) {
 			try {
@@ -62,6 +88,13 @@ public class DataBaseConfig {
 		}
 	}
 
+	/**
+	 * Close the table result set
+	 * 
+	 * @param rs the result set
+	 * 
+	 * @version 1.0
+	 */
 	public void closeResultSet(ResultSet rs) {
 		if (rs != null) {
 			try {

@@ -48,11 +48,11 @@ public class ParkingDataBaseIT {
 	}
 
 	@BeforeEach
-    private void setUpPerTest() throws Exception {
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        dataBasePrepareService.clearDataBaseEntries();
-    }
+	private void setUpPerTest() throws Exception {
+		when(inputReaderUtil.readSelection()).thenReturn(1);
+		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+		dataBasePrepareService.clearDataBaseEntries();
+	}
 
 	@AfterAll
 	private static void tearDown() {
@@ -61,15 +61,16 @@ public class ParkingDataBaseIT {
 
 	@Test
 	public void testParkingACar() {
+		// Arrange
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
 
-		// TODO: check that a ticket is actualy saved in DB and Parking table is updated
-		// with availability
-
 		Ticket ticketFromDataBase = new Ticket();
+
+		// Act
 		ticketFromDataBase = ticketDAO.getTicket("ABCDEF");
 
+		// Assert
 		assertNotEquals(null, ticketFromDataBase);
 		assertEquals("ABCDEF", ticketFromDataBase.getVehicleRegNumber());
 		assertEquals(ParkingType.CAR, ticketFromDataBase.getParkingSpot().getParkingType());
@@ -81,7 +82,7 @@ public class ParkingDataBaseIT {
 
 	@Test
 	public void testParkingLotExit() {
-
+		// Arrange
 		testParkingACar();
 		Ticket ticketFromDataBase = new Ticket();
 		ticketFromDataBase = ticketDAO.getTicket("ABCDEF");
@@ -94,22 +95,19 @@ public class ParkingDataBaseIT {
 		ticketDAO.updateTicket(ticketFromDataBase);
 
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-		parkingService.processExitingVehicle();
-		// TODO: check that the fare generated and out time are populated correctly in
-		// the database
 
+		// Act
+		parkingService.processExitingVehicle();
 		ticketFromDataBase = ticketDAO.getTicket("ABCDEF");
 
+		// Assert
 		assertNotNull(ticketFromDataBase.getPrice());
 		assertNotEquals(null, ticketFromDataBase.getOutTime());
 	}
 
 	@Test
 	public void testParkingLotExitRecurringUser() {
-		// Il doit tester le calcul du prix d’un
-		// ticket via l’appel de processIncomingVehicle et processExitingVehicle
-		// dans le cas d’un utilisateur récurrent.
-
+		// Arrange
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
 
@@ -136,9 +134,11 @@ public class ParkingDataBaseIT {
 		ticket2.setOutTime(newDate2);
 		ticketDAO.updateTicket(ticket2);
 
+		// Act
 		parkingService.processExitingVehicle();
 		ticket2 = ticketDAO.getTicket("ABCDEF");
 
+		// Assert
 		DecimalFormat decimalFormat = new DecimalFormat("#.##");
 		String roundedValue = decimalFormat.format(ticket2.getPrice());
 
@@ -148,7 +148,7 @@ public class ParkingDataBaseIT {
 
 	@Test
 	public void testParkingLotExitForOneHour() {
-
+		// Arrange
 		testParkingACar();
 		Ticket ticketFromDataBase = new Ticket();
 		ticketFromDataBase = ticketDAO.getTicket("ABCDEF");
@@ -161,10 +161,12 @@ public class ParkingDataBaseIT {
 		ticketDAO.updateTicket(ticketFromDataBase);
 
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-		parkingService.processExitingVehicle();
 
+		// Act
+		parkingService.processExitingVehicle();
 		ticketFromDataBase = ticketDAO.getTicket("ABCDEF");
 
+		// Assert
 		DecimalFormat decimalFormat = new DecimalFormat("#.##");
 		String roundedValue = decimalFormat.format(ticketFromDataBase.getPrice());
 
@@ -176,7 +178,7 @@ public class ParkingDataBaseIT {
 
 	@Test
 	public void testParkingLotExitForOneDay() {
-
+		// Arrange
 		testParkingACar();
 		Ticket ticketFromDataBase = new Ticket();
 		ticketFromDataBase = ticketDAO.getTicket("ABCDEF");
@@ -189,17 +191,18 @@ public class ParkingDataBaseIT {
 		ticketDAO.updateTicket(ticketFromDataBase);
 
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-		parkingService.processExitingVehicle();
 
+		// Act
+		parkingService.processExitingVehicle();
 		ticketFromDataBase = ticketDAO.getTicket("ABCDEF");
 
+		// Assert
 		DecimalFormat decimalFormat = new DecimalFormat("#.##");
 		String roundedValue = decimalFormat.format(ticketFromDataBase.getPrice());
 
 		assertNotNull(ticketFromDataBase.getPrice());
 		assertEquals("36", roundedValue);
 		assertNotEquals(null, ticketFromDataBase.getOutTime());
-
 	}
 
 }

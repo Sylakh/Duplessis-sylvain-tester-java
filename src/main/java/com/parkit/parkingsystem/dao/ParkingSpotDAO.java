@@ -12,11 +12,24 @@ import com.parkit.parkingsystem.constants.DBConstants;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
 
+/**
+ * Customized tools to interact with the table parking
+ * 
+ * @version 1.0
+ */
 public class ParkingSpotDAO {
 	private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
 
 	public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+	/**
+	 * method to get the next available Slot.
+	 * 
+	 * @param parkingType the category of the vehicle
+	 * @return the Id of the next parking slot available. return 0 if no slot
+	 *         available
+	 * @version 1.0
+	 */
 	public int getNextAvailableSlot(ParkingType parkingType) {
 		Connection con = null;
 		int result = -1;
@@ -39,8 +52,14 @@ public class ParkingSpotDAO {
 		return result;
 	}
 
+	/**
+	 * update the availability of that parking slot in the table parking
+	 * 
+	 * @param parkingSpot An object ParkingSpot
+	 * @return a boolean to confirm the update
+	 * @version 1.0
+	 */
 	public boolean updateParking(ParkingSpot parkingSpot) {
-		// update the availability of that parking slot
 		Connection con = null;
 		try {
 			con = dataBaseConfig.getConnection();

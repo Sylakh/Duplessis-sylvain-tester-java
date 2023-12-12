@@ -14,12 +14,24 @@ import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 
+/**
+ * Customized tools to interact with the table ticket
+ * 
+ * @version 1.0
+ */
 public class TicketDAO {
 
 	private static final Logger logger = LogManager.getLogger("TicketDAO");
 
 	public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+	/**
+	 * save a new object ticket in the table ticket
+	 * 
+	 * @param ticket An object ticket
+	 * @return a boolean to confirm the save
+	 * @version 1.0
+	 */
 	public boolean saveTicket(Ticket ticket) {
 		Connection con = null;
 		try {
@@ -43,6 +55,13 @@ public class TicketDAO {
 		return false;
 	}
 
+	/**
+	 * get the information to create an object ticket from the table ticket
+	 * 
+	 * @param vehicleRegNumber A reference of the customer as a vehicle number
+	 * @return a ticket containing information from the table ticket
+	 * @version 1.0
+	 */
 	public Ticket getTicket(String vehicleRegNumber) {
 		Connection con = null;
 		Ticket ticket = null;
@@ -72,6 +91,14 @@ public class TicketDAO {
 		}
 	}
 
+	/**
+	 * update the information contained in the table ticket from a specific object
+	 * ticket
+	 * 
+	 * @param ticket An object ticket
+	 * @return a boolean to confirm the update
+	 * @version 1.0
+	 */
 	public boolean updateTicket(Ticket ticket) {
 		Connection con = null;
 		try {
@@ -91,6 +118,14 @@ public class TicketDAO {
 		return false;
 	}
 
+	/**
+	 * Count how many times a specific customer is already registered in the table
+	 * ticket
+	 * 
+	 * @param vehicleRegNumber the reference of the customer
+	 * @return an integer
+	 * @version 1.0
+	 */
 	public int getNbTicket(String vehicleRegNumber) {
 		Connection con = null;
 		try {

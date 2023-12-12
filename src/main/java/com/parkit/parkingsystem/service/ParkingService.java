@@ -12,6 +12,11 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 
+/**
+ * all necessary methods to manage the relation with the customer
+ * 
+ * @version 1.0
+ */
 public class ParkingService {
 
 	private static final Logger logger = LogManager.getLogger("ParkingService");
@@ -28,44 +33,63 @@ public class ParkingService {
 		this.ticketDAO = ticketDAO;
 	}
 
+	/**
+	 * Method to manage the process when a vehicle incomes: get a parking spot and
+	 * update the table parking set a ticket and save it in the table ticket, give
+	 * the information to the customer
+	 * 
+	 * @version 1.0
+	 */
 	public void processIncomingVehicle() {
 		try {
 			ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
-			// if (parkingSpot != null && parkingSpot.getId() > 0) {
-			String vehicleRegNumber = getVehicleRegNumber();
-			parkingSpot.setAvailable(false);
-			parkingSpotDAO.updateParking(parkingSpot);// allot this parking space and mark it's availability as
-														// false
+			if (parkingSpot != null && parkingSpot.getId() > 0) {
+				String vehicleRegNumber = getVehicleRegNumber();
+				parkingSpot.setAvailable(false);
+				parkingSpotDAO.updateParking(parkingSpot);
 
-			Date inTime = new Date();
-			Ticket ticket = new Ticket();
-			// ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
-			// ticket.setId(ticketID);
-			ticket.setParkingSpot(parkingSpot);
-			ticket.setVehicleRegNumber(vehicleRegNumber);
-			ticket.setPrice(0);
-			ticket.setInTime(inTime);
-			ticket.setOutTime(null);
-			ticketDAO.saveTicket(ticket);
-			System.out.println("Generated Ticket and saved in DB");
-			int countCustomerEntry = ticketDAO.getNbTicket(vehicleRegNumber);
-			if (countCustomerEntry > 1) {
-				System.out.println(
-						"Heureux de vous revoir ! En tant qu’utilisateur régulier de notre parking, vous allez obtenir une remise de 5%");
-				// }
-				System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
-				System.out.println("Recorded in-time for vehicle number:" + vehicleRegNumber + " is:" + inTime);
+				Date inTime = new Date();
+				Ticket ticket = new Ticket();
+				// ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
+
+				ticket.setParkingSpot(parkingSpot);
+				ticket.setVehicleRegNumber(vehicleRegNumber);
+				ticket.setPrice(0);
+				ticket.setInTime(inTime);
+				ticket.setOutTime(null);
+				ticketDAO.saveTicket(ticket);
+				System.out.println("Generated Ticket and saved in DB");
+				int countCustomerEntry = ticketDAO.getNbTicket(vehicleRegNumber);
+				if (countCustomerEntry > 1) {
+					System.out.println(
+							"Heureux de vous revoir ! En tant qu’utilisateur régulier de notre parking, vous allez obtenir une remise de 5%");
+					System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
+					System.out.println("Recorded in-time for vehicle number:" + vehicleRegNumber + " is:" + inTime);
+				}
 			}
 		} catch (Exception e) {
 			logger.error("Unable to process incoming vehicle", e);
 		}
 	}
 
+	/**
+	 * Method to get the reference of the customer from the customer
+	 * 
+	 * @return a string with the reference of the customer
+	 * @version 1.0
+	 */
 	public String getVehicleRegNumber() throws Exception {
 		System.out.println("Please type the vehicle registration number and press enter key");
 		return inputReaderUtil.readVehicleRegistrationNumber();
 	}
 
+	/**
+	 * Method to get a Parking Spot if available
+	 * 
+	 * @return the first parkingSpot available for the parkingtype of the customer,
+	 *         null if no parkingSpot available
+	 * @version 1.0
+	 */
 	public ParkingSpot getNextParkingNumberIfAvailable() {
 		int parkingNumber = 0;
 		ParkingSpot parkingSpot = null;
@@ -85,6 +109,12 @@ public class ParkingService {
 		return parkingSpot;
 	}
 
+	/**
+	 * Method to ask to a the customer his parkingType
+	 * 
+	 * @return the parkingType of the customer
+	 * @version 1.0
+	 */
 	public ParkingType getVehichleType() {
 		System.out.println("Please select vehicle type from menu");
 		System.out.println("1 CAR");
@@ -104,6 +134,13 @@ public class ParkingService {
 		}
 	}
 
+	/**
+	 * Method to manage the process when the customer goes out: get the last ticket
+	 * of the customer, verify if he is a regular customer, calculate the fare
+	 * price, give information to the customer and update tables
+	 * 
+	 * @version 1.0
+	 */
 	public void processExitingVehicle() {
 		try {
 			String vehicleRegNumber = getVehicleRegNumber();

@@ -38,39 +38,45 @@ public class ParkingSpotDAOTest {
 
 	@Test
 	public void getNextAvailableSlotIfAvailable() {
+		// Arrange
 		int nextSlot = 0;
 
+		// Act
 		nextSlot = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
 
+		// Assert
 		assertEquals(1, nextSlot);
 	}
 
 	@Test
 	public void updateParkingSpotTest() {
-
+		// Arrange
 		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
 		boolean updateVerification = false;
-
-		updateVerification = parkingSpotDAO.updateParking(parkingSpot);
-		assertEquals(true, updateVerification);
-
 		int nextSlot = 0;
+
+		// Act
+		updateVerification = parkingSpotDAO.updateParking(parkingSpot);
 		nextSlot = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
 
+		// Assert
+		assertEquals(true, updateVerification);
 		assertEquals(2, nextSlot);
 	}
 
 	@Test
 	public void getNextAvailableSlotIfNoSlotAvailable() {
-
+		// Arrange
 		ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
 		parkingSpotDAO.updateParking(parkingSpot);
 		parkingSpot.setId(5);
 		parkingSpotDAO.updateParking(parkingSpot);
+		int noNextSlot = -1;
 
-		int noNextSlot = 0;
+		// Act
 		noNextSlot = parkingSpotDAO.getNextAvailableSlot(ParkingType.BIKE);
 
+		// Assert
 		assertEquals(0, noNextSlot);
 
 	}

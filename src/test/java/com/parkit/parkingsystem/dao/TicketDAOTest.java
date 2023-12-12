@@ -46,7 +46,7 @@ public class TicketDAOTest {
 
 	@Test
 	public void saveTicketTest() {
-
+		// Arrange
 		Ticket ticketTest = new Ticket();
 		ParkingSpot parkingSpotTest = new ParkingSpot(1, ParkingType.CAR, true);
 		boolean savedVerification;
@@ -60,8 +60,11 @@ public class TicketDAOTest {
 		ticketTest.setPrice(0);
 		ticketTest.setInTime(dateInTime);
 		ticketTest.setOutTime(dateOutTime);
+
+		// Act
 		savedVerification = ticketDAO.saveTicket(ticketTest);
 
+		// Assert
 		assertEquals("AZERTY", ticketTest.getVehicleRegNumber());
 		assertEquals(0, ticketTest.getPrice());
 		assertNotNull(ticketTest.getInTime());
@@ -71,12 +74,14 @@ public class TicketDAOTest {
 
 	@Test
 	public void getTickektTest() {
-
+		// Arrange
 		saveTicketTest();
-
 		Ticket getTicketTest = new Ticket();
+
+		// Act
 		getTicketTest = ticketDAO.getTicket("AZERTY");
 
+		// Assert
 		assertEquals("AZERTY", getTicketTest.getVehicleRegNumber());
 		assertEquals(0, getTicketTest.getPrice());
 		assertNotNull(getTicketTest.getInTime());
@@ -85,7 +90,7 @@ public class TicketDAOTest {
 
 	@Test
 	public void updateTicketTest() {
-
+		// Arrange
 		saveTicketTest();
 
 		Ticket ticket = new Ticket();
@@ -102,9 +107,11 @@ public class TicketDAOTest {
 		ticket.setOutTime(updateOutTime);
 		ticketDAO.updateTicket(ticket);
 
+		// Act
 		Ticket updatedTicket = new Ticket();
 		updatedTicket = ticketDAO.getTicket("AZERTY");
 
+		// Assert
 		assertEquals(10, updatedTicket.getPrice());
 		assertNotNull(updatedTicket.getInTime().getTime());
 		assertNotNull(updatedTicket.getOutTime().getTime());
@@ -112,13 +119,16 @@ public class TicketDAOTest {
 
 	@Test
 	public void getNbTicketTest() {
-
+		// Arrange
 		saveTicketTest();
 		saveTicketTest();
 
 		int countNbTicket = 0;
+
+		// Act
 		countNbTicket = ticketDAO.getNbTicket("AZERTY");
 
+		// Assert
 		assertNotEquals(0, countNbTicket);
 		assertNotEquals(1, countNbTicket);
 	}

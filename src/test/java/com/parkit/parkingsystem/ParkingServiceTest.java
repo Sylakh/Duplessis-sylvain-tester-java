@@ -54,7 +54,7 @@ class ParkingServiceTest {
 
 	@Test
 	void processExitingVehicleTest() {
-
+		// Arrange
 		try {
 			when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 
@@ -73,8 +73,10 @@ class ParkingServiceTest {
 			throw new RuntimeException("Failed to set up test mock objects");
 		}
 
+		// Act
 		parkingService.processExitingVehicle();
 
+		// Assert
 		verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
 		verify(ticketDAO, Mockito.times(1)).getNbTicket("ABCDEF");
 		verify(ticketDAO, Mockito.times(1)).updateTicket(ticketDAO.getTicket(anyString()));
@@ -83,9 +85,6 @@ class ParkingServiceTest {
 
 	@Test
 	void processIncomingVehicleTest() {
-		// test de l’appel de la méthode processIncomingVehicle() où tout se déroule
-		// comme attendu.
-
 		// Arrange
 		try {
 			when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
@@ -109,16 +108,13 @@ class ParkingServiceTest {
 		// Act
 		parkingService.processIncomingVehicle();
 
-		// verify
+		// Assert
 		verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
 	}
 
 	@Test
 	void processExitingVehicleUnableUpdateTest() {
-		// exécution du test dans le cas où la méthode updateTicket() de ticketDAO
-		// renvoie false lors de l’appel de processExitingVehicle()
-
-		// WHEN
+		// Arrange
 		try {
 			when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 
@@ -134,8 +130,10 @@ class ParkingServiceTest {
 			throw new RuntimeException("Failed to set up test mock objects");
 		}
 
+		// Act
 		parkingService.processExitingVehicle();
 
+		// Assert
 		verify(parkingSpotDAO, Mockito.times(0)).updateParking(any(ParkingSpot.class));
 		verify(ticketDAO, Mockito.times(1)).getNbTicket("ABCDEF");
 		verify(ticketDAO, Mockito.times(1)).updateTicket(ticketDAO.getTicket(anyString()));
@@ -143,10 +141,7 @@ class ParkingServiceTest {
 
 	@Test
 	void getNextParkingNumberIfAvailableTest() {
-		// test de l’appel de la méthode getNextParkingNumberIfAvailable() avec pour
-		// résultat l’obtention d’un spot dont l’ID est 1 et qui est disponible.
-
-		// ARRANGE
+		// Arrange
 		try {
 			ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
 			Ticket ticket = new Ticket();
@@ -160,11 +155,11 @@ class ParkingServiceTest {
 			throw new RuntimeException("Failed to set up test mock objects");
 		}
 
-		// ACT
+		// Act
 		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
 		parkingSpot = parkingService.getNextParkingNumberIfAvailable();
 
-		// VERIFY
+		// Assert
 		assertEquals(parkingSpot.getId(), 1);
 		assertEquals(parkingSpot.isAvailable(), true);
 
@@ -172,10 +167,7 @@ class ParkingServiceTest {
 
 	@Test
 	public void getNextParkingNumberIfAvailableParkingNumberNotFoundTest() {
-		// test de l’appel de la méthode getNextParkingNumberIfAvailable()avec pour
-		// résultat aucun spot disponible (la méthode renvoie null).
-
-		// ARRANGE
+		// Arrange
 		try {
 			ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
 			Ticket ticket = new Ticket();
@@ -189,25 +181,18 @@ class ParkingServiceTest {
 			throw new RuntimeException("Failed to set up test mock objects");
 		}
 
-		// ACT
+		// Act
 		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
 		parkingSpot = parkingService.getNextParkingNumberIfAvailable();
 
-		// VERIFY
+		// Assert
 		assertEquals(parkingSpot, null);
 
 	}
 
 	@Test
 	public void getNextParkingNumberIfAvailableParkingNumberWrongArgumentTest() {
-
-		// test de l’appel de la méthode getNextParkingNumberIfAvailable() avec pour
-		// résultat aucun spot
-		// (la méthode renvoie null) car l’argumentsaisi par l’utilisateur concernant
-		// le type de véhicule est erroné(par exemple,
-		// l’utilisateur a saisi 3).
-
-		// ARRANGE
+		// Arrange
 		try {
 			ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
 			Ticket ticket = new Ticket();
@@ -221,11 +206,11 @@ class ParkingServiceTest {
 			throw new RuntimeException("Failed to set up test mock objects");
 		}
 
-		// ACT
+		// Act
 		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
 		parkingSpot = parkingService.getNextParkingNumberIfAvailable();
 
-		// VERIFY
+		// Assert
 		assertEquals(parkingSpot, null);
 
 	}
